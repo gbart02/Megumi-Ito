@@ -1,0 +1,39 @@
+* { /* Selects every element. */
+    box-sizing: border-box; /* Includes padding and borders in element dimensions. */
+} /* Ends the universal rule. */
+
+body { /* Selects the gallery page body. */
+    margin: 0; /* Removes browser default margins. */
+    min-height: 100vh; /* Makes the page at least as tall as the viewport. */
+    background: #3c3799; /* Sets the gallery page background. */
+    color: #1d2933; /* Sets the gallery page text color. */
+    font-family: "Times New Roman", Times, serif; /* Sets the page font. */
+} /* Ends the body rule. */
+
+.middle-bar { /* Selects the gallery navigation bar. */
+    position: fixed; /* Keeps navigation visible while scrolling. */
+    top: 1rem; /* Places the bar near the top. */
+    left: 50%; /* Centers the bar horizontally. */
+    transform: translateX(-50%); /* Corrects the horizontal centering. */
+    display: flex; /* Places title and links in a row. */
+    gap: 2rem; /* Separates the title from navigation. */
+    align-items: center; /* Vertically centers the bar contents. */
+    padding: 0.75rem 1rem; /* Adds space inside the bar. */
+    background: rgba(255, 255, 255, 0.7); /* Gives the bar a translucent background. */
+} /* Ends the middle-bar rule. */
+
+.site-title, .site-nav a { /* Selects the title and navigation links. */
+    color: inherit; /* Uses the page text color. */
+    text-decoration: none; /* Removes link underlines. */
+} /* Ends the link rule. */
+
+.site-nav { /* Selects the navigation links container. */
+    display: flex; /* Places links in a row. */
+    gap: 1rem; /* Adds space between links. */
+} /* Ends the site-nav rule. */
+
+.page-content { /* Selects the gallery content. */
+    max-width: 1100px; /* Limits the content width. */
+    margin: 0 auto; /* Centers the content. */
+    padding: 8rem 1.5rem; /* Leaves space below the fixed bar. */
+} /* Ends the page-content rule. */

@@ -1,0 +1,166 @@
+/* Home page intro, driven by script/intro.js.
+   Phase 1: "Megumi Ito" fills from grey to black like a loading bar.
+   Phase 2: big clickable navigation.
+   Phase 3: the clicked word and the others slide into the small menu. */
+
+/* Extra specificity so it beats `.main-page > :not(.middle-bar):not(.bottom-bar)` in beauty.css,
+   which would otherwise force the intro to position: relative under the white overlay. */
+body.main-page > .intro:not(.middle-bar):not(.bottom-bar) {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    font-family: helvetica, sans-serif;
+    color: #000000;
+}
+
+.intro {
+    /* Sized from both width and height so the four nav words always fit on screen. */
+    --intro-size: clamp(2rem, min(8vw, 11vh), 5.6rem);
+    --intro-gap: clamp(0.8rem, 7vh, 4.5rem);
+}
+
+/* Each phase is a centred stack. */
+.intro-stack {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--intro-gap);
+}
+
+.intro-word {
+    display: inline-block;
+    font-size: var(--intro-size);
+    line-height: 1;
+    white-space: nowrap;
+    will-change: transform, opacity;
+}
+
+/* Loading-bar title: a grey copy with a black copy on top that is revealed left to right. */
+.intro-title {
+    position: relative;
+}
+
+.intro-title-base {
+    color: #bdbdbd;
+}
+
+.intro-title-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #000000;
+    /* Negative top/bottom insets let the clip reach past the tight line box,
+       so descenders like the tail of the "g" get filled too. */
+    clip-path: inset(-30% 100% -30% -10%);
+}
+
+/* Big navigation: hidden until phase 2, then clickable. */
+.intro-nav .intro-word {
+    opacity: 0;
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Only the words are clickable, not the empty space around them. */
+.intro-nav:not([inert]) {
+    pointer-events: none;
+}
+
+.intro-nav:not([inert]) .intro-word {
+    pointer-events: auto;
+}
+
+.intro-nav .intro-word {
+    transition: color 0.25s ease;
+}
+
+/* Subtle hover: from black to a dark grey. */
+.intro-nav .intro-word:hover,
+.intro-nav .intro-word:focus-visible {
+    color: #5a5a5a;
+}
+
+/* While the intro runs, the real small type stays laid out (so it can be measured) but hidden. */
+html:not(.intro-seen) body.intro-running .middle-bar .site-title,
+html:not(.intro-seen) body.intro-running .middle-bar .site-nav a,
+html:not(.intro-seen) body.intro-running > .site-contact {
+    visibility: hidden;
+}
+
+/* Returning in the same visit: no intro at all. */
+html.intro-seen .intro {
+    display: none;
+}
+
+/* ===== Home page contact (script/home-contact.js) =====
+   Clicking "Contact" fades out the menu (big words or small menu), moves "Contact" up and
+   underlines it, and fades in Instagram / E-mail / Phone number in the space below it. */
+.main-page {
+    --contact-pitch: 1.7em; /* Distance from one contact line to the next. */
+}
+
+/* Closing: wait until Instagram / E-mail / Phone number have faded out (0.4s), then move down. */
+body.main-page > .site-contact {
+    line-height: 1.2;
+    transition: translate 0.5s ease 0.4s;
+}
+
+/* Opening: move up straight away. */
+body.main-page.contact-open > .site-contact {
+    transition-delay: 0s;
+    translate: 0 calc(-3 * var(--contact-pitch));
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* Extra specificity so beauty.css's `.main-page > :not(.middle-bar):not(.bottom-bar)` can't make it relative. */
+body.main-page > .home-contact:not(.middle-bar):not(.bottom-bar) {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 50%;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--contact-pitch) - 1.2em);
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.home-contact a {
+    color: #000000;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Links fade in one after another, after Contact has started moving up. */
+.contact-open .home-contact a {
+    opacity: 1;
+}
+
+.contact-open .home-contact a:nth-child(1) { transition-delay: 0.2s; }
+.contact-open .home-contact a:nth-child(2) { transition-delay: 0.3s; }
+.contact-open .home-contact a:nth-child(3) { transition-delay: 0.4s; }
+
+/* The menu fades out while the contact details are open. */
+.intro-nav,
+body.main-page > .middle-bar .site-nav {
+    transition: opacity 0.4s ease;
+}
+
+.contact-open .intro-nav,
+body.main-page.contact-open > .middle-bar .site-nav {
+    opacity: 0;
+    pointer-events: none !important;
+}
+
+.contact-open .intro-nav .intro-word {
+    pointer-events: none;
+}

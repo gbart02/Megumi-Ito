@@ -1,0 +1,64 @@
+<!DOCTYPE html> <!-- Declares that this document uses modern HTML5. -->
+<html lang="en"> <!-- Starts the HTML document and identifies English as its language. -->
+
+<head> <!-- Contains metadata and resources used by the page. -->
+    <meta charset="UTF-8"> <!-- Allows the page to display a wide range of characters correctly. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Makes the layout adapt to the device width. -->
+    <title>Megumi Ito</title> <!-- Sets the title shown in the browser tab. -->
+    <link rel="stylesheet" href="../style/beauty.css"> <!-- Loads the page stylesheet. -->
+    <link rel="stylesheet" href="../style/intro.css"> <!-- Loads the intro animation styles. -->
+    <script>
+        // The intro plays once per visit (and again on a reload): skip it before anything is drawn.
+        try {
+            const navigation = performance.getEntriesByType("navigation")[0];
+            const isReload = navigation && navigation.type === "reload";
+            if (sessionStorage.getItem("introSeen") && !isReload) document.documentElement.classList.add("intro-seen");
+        } catch (error) {}
+    </script>
+</head> <!-- Ends the metadata section. -->
+
+<body class="main-page intro-running">
+    <!-- Big type for the intro; script/intro.js animates it and then removes it. -->
+    <div class="intro">
+        <!-- Phase 1: the title doubles as a loading bar (grey text filling with black). -->
+        <div class="intro-stack intro-phase-one" aria-hidden="true">
+            <span class="intro-word intro-title">
+                <span class="intro-title-base">Megumi Ito</span>
+                <span class="intro-title-fill">Megumi Ito</span>
+            </span>
+        </div>
+        <!-- Phase 2: big clickable navigation. -->
+        <nav class="intro-stack intro-nav" aria-label="Intro navigation" inert>
+            <a class="intro-word" href="./main.html">Home</a>
+            <a class="intro-word" href="./projects.html">Projects</a>
+            <a class="intro-word" href="./gallery.html">Gallery</a>
+            <a class="intro-word" href="./about.html">About</a>
+        </nav>
+    </div>
+
+    <header class="middle-bar">
+        <span class="site-title">Megumi Ito</span>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="./main.html" aria-current="page">Home</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./gallery.html">Gallery</a>
+            <a href="./about.html">About</a>
+        </nav>
+
+    </header>
+
+    <a class="site-contact" href="./about.html#contact" aria-expanded="false" aria-controls="home-contact">Contact</a>
+
+    <!-- Contact details: fade in under "Contact" when it is clicked (script/home-contact.js).
+         Placeholders for now: replace each href="#" with the real link. -->
+    <div class="home-contact" id="home-contact" aria-label="Contact details" inert>
+        <a href="#">Instagram</a>
+        <a href="#">E-mail</a>
+        <a href="#">Phone number</a>
+    </div>
+
+    <script src="../script/intro.js"></script>
+    <script src="../script/nav.js"></script>
+    <script src="../script/home-contact.js"></script>
+</body>
+</html> <!-- Ends the HTML document. -->

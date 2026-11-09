@@ -1,0 +1,1571 @@
+:root { /* Selects the root HTML element. */
+    color-scheme: dark; /* Tells the browser the page uses a dark color scheme. */
+    font-family: helvetica, sans-serif; /* Sets the default page font. */
+} /* Ends the :root rule. */
+
+* { /* Selects every element on the page. */
+    box-sizing: border-box; /* Includes padding and borders in an element's size. */
+} /* Ends the universal rule. */
+
+body { /* Selects the page body. */
+    min-height: 100vh; /* Makes the page at least one viewport high without adding extra empty height. */
+    margin: 0; /* Removes the browser's default body margin. */
+    background: var(--page-background, #ffffff); /* Sets the page background from the active color choice. */
+    color: #000000; /* Sets the default text color to black. */
+    font-family: helvetica, sans-serif; /* Sets the default font for the page. */
+} /* Ends the body rule. */
+
+.main-page { /* Selects the main page. */
+    position: relative; /* Creates the stacking context for the fading background layer. */
+    background-image: none; /* Keeps the background hidden while the bars are loading. */
+} /* Ends the main-page rule. */
+
+.main-page::before { /* Selects the fading main-page background layer. */
+    position: fixed; /* Keeps the image fixed while the page scrolls. */
+    inset: 0; /* Covers the entire viewport. */
+    z-index: 0; /* Keeps the image behind the page content and bars. */
+    background: url("../images/main%20page/firstpage.png") center top / auto 100vh no-repeat; /* Shows the complete image height without cropping it. */
+    content: ""; /* Creates the background layer. */
+    opacity: 0; /* Keeps the image hidden while loading. */
+    transition: opacity 0.5s ease; /* Fades the image in smoothly after loading. */
+    pointer-events: none; /* Keeps the decorative layer from blocking interaction. */
+} /* Ends the main-page background layer. */
+
+.main-page:not(.is-loading)::before { /* Selects the background after loading completes. */
+    opacity: 1; /* Reveals the image with the fade transition. */
+} /* Ends the loaded main-page background rule. */
+
+.main-page > :not(.middle-bar):not(.bottom-bar) { /* Selects main-page content above the background. */
+    position: relative; /* Allows content to sit above the fading layer. */
+    z-index: 1; /* Places content above the background image. */
+} /* Ends the loaded main-page rule. */
+
+.middle-bar { /* Selects the permanent middle bar. */
+    border: none;
+    background: rgba(219, 219, 219, 0.85); /* Keeps the middle bar grey regardless of the page background. */
+    box-shadow: var(--bar-shadow, none); /* Keeps the glow disabled until a glow option is selected. */
+    position: fixed; /* Keeps the bar fixed while the page scrolls. */
+    top: 50%; /* Places the bar's top edge halfway down the viewport. */
+    left: 50%; /* Places the bar's left edge halfway across the viewport. */
+    z-index: 20; /* Places the bar above elements with lower stacking order. */
+    height: auto; /* Lets the bar fit its text and navigation. */
+    width: max-content; /* Sizes the navigation to its stacked contents. */
+    padding: 0.35rem; /* Keeps the bar thin while leaving room around its contents. */
+    container-type: inline-size; /* Lets the text respond to the bar's width. */
+    transform: translateY(-50%); /* Centers the stacked navigation vertically. */
+    color: #fdfdfd; /* Makes the bar text white. */
+    line-height: 1.2; /* Keeps the text compact inside the bar. */
+    font-size: 0.9rem; /* Keeps the vertical navigation slightly larger. */
+    display: flex; /* Places the title and navigation in one vertical group. */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.7rem;
+    text-align: left;
+} /* Ends the middle-bar rule. */
+
+.middle-bar {
+    display: flex;
+    animation: none !important;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #000000;
+}
+
+.subpage .middle-bar {
+    animation: none !important;
+    background: transparent;
+}
+
+.subpage .page-content {
+    opacity: 1;
+    visibility: visible;
+    animation: none !important;
+}
+
+/* Keeps the homepage interface consistent across every page. */
+body > .middle-bar {
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 20;
+    width: 100% !important;
+    min-height: 0 !important;
+    padding: 0.5rem 1rem !important;
+    transform: none !important;
+    background: transparent !important;
+    color: #000000 !important;
+    display: block !important;
+}
+
+body > .middle-bar .site-title {
+    position: fixed !important;
+    top: 0.5rem !important;
+    left: 50% !important;
+    color: #000000 !important;
+    font-size: 0.9rem !important;
+    transform: translateX(-50%) !important;
+}
+
+body > .middle-bar .site-nav {
+    position: fixed !important;
+    top: 50% !important;
+    left: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: calc(0.4rem + 10px) !important;
+    transform: translateY(-50%) !important;
+}
+
+body > .middle-bar .site-nav a,
+body > .middle-bar .site-nav a.active,
+body > .middle-bar .site-nav a[aria-current="page"] {
+    width: calc(7.2rem + 1rem);
+    margin-left: -1rem;
+    padding: 0.15rem 0 0.15rem 1rem;
+    color: #000000 !important;
+    background: rgba(255, 255, 255, 0.32);
+    font-size: 0.9rem !important;
+    text-decoration: none !important;
+}
+
+body > .middle-bar .site-nav a.active {
+    text-decoration: none !important;
+}
+
+body > .middle-bar .site-nav a.active,
+body > .middle-bar .site-nav a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.32) !important;
+}
+
+body > .site-contact {
+    position: fixed !important;
+    bottom: 0.5rem !important;
+    left: 50% !important;
+    z-index: 9999 !important;
+    color: #000000 !important;
+    font-size: 0.9rem !important;
+    text-decoration: none;
+    transform: translateX(-50%) !important;
+}
+
+body.main-page > .site-contact,
+body.main-page > .site-contact:hover,
+body.main-page > .site-contact:focus,
+body.main-page > .site-contact:focus-visible {
+    z-index: 9999 !important;
+    color: #000000 !important;
+}
+
+body.main-page > a.main-contact {
+    position: fixed !important;
+    bottom: 0.5rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+body.main-page .middle-bar .site-title {
+    position: fixed;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body.main-page .middle-bar .site-nav {
+    position: fixed;
+    top: 50%;
+    left: 1rem;
+    display: flex;
+    transform: translateY(-50%);
+}
+
+body.main-page > a.main-contact {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 50%;
+    font-size: 0.9rem;
+    transform: translateX(-50%);
+}
+
+body.main-page .middle-bar .site-title {
+    position: fixed;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body.main-page .middle-bar .site-nav {
+    position: fixed;
+    top: 50%;
+    left: 1rem;
+    display: flex;
+    transform: translateY(-50%);
+}
+
+body.main-page > a.main-contact {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Homepage layout */
+.main-page {
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.main-page::before {
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+}
+
+.main-page::after {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.68);
+    content: "";
+    pointer-events: none;
+}
+
+.main-page .middle-bar {
+    top: 0;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    transform: none;
+    background: transparent;
+    color: #000000;
+    display: block;
+    text-align: left;
+}
+
+.main-page .site-title {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.main-page .site-nav {
+    position: fixed;
+    top: 50%;
+    left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transform: translateY(-50%);
+}
+
+.main-page .site-nav a {
+    width: 7.2rem;
+    padding: 0.15rem 0;
+    color: #000000;
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.main-page .site-nav a:hover,
+.main-page .site-nav a:focus-visible,
+.main-page .site-nav a[aria-current="page"] {
+    color: #000000;
+    background: rgba(255, 255, 255, 0.62);
+}
+
+body.main-page > .main-contact {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 50%;
+    z-index: 20;
+    color: #000000;
+    text-decoration: none;
+    transform: translateX(-50%);
+}
+
+.main-contact:hover,
+.main-contact:focus-visible,
+body.main-page > .site-contact:hover,
+body.main-page > .site-contact:focus-visible {
+    color: #000000 !important;
+}
+
+.projects-page .site-nav a,
+.gallery-page .site-nav a,
+.projects-page .site-nav a:hover,
+.projects-page .site-nav a:focus-visible,
+.projects-page .site-nav a.active,
+.gallery-page .site-nav a:hover,
+.gallery-page .site-nav a:focus-visible,
+.gallery-page .site-nav a.active {
+    color: #ffffff;
+}
+
+.projects-page .site-nav a.active,
+.gallery-page .site-nav a.active {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.about-page .middle-bar {
+    background: transparent;
+}
+
+.subpage .bottom-bar {
+    animation: none !important;
+    opacity: 1;
+}
+
+.projects-page .middle-bar,
+.gallery-page .middle-bar {
+    top: 50%;
+    left: 1rem;
+    width: 12rem;
+    height: 100vh;
+    min-height: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.72);
+    color: #ffffff;
+    transform: translateY(-50%);
+}
+
+.projects-page .middle-bar .site-title,
+.gallery-page .middle-bar .site-title,
+.projects-page .site-nav a,
+.gallery-page .site-nav a {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.bottom-bar { /* Selects the permanent bottom bar. */
+    position: fixed; /* Keeps the bar in the same viewport position while scrolling. */
+    bottom: 0; /* Aligns the bar flush with the bottom edge. */
+    left: 0; /* Aligns the bar with the left edge. */
+    z-index: 20; /* Places the bar above the page content. */
+    width: min(100%); /* Gives the bottom bar the same width as the middle bar. */
+    min-height: 2.2rem; /* Gives the controls room while matching the middle bar's compact scale. */
+    padding: 0.35rem; /* Uses the same inner spacing as the middle bar. */
+    background: rgba(219, 219, 219, 0.85); /* Keeps the bottom bar grey regardless of the page background. */
+    box-shadow: var(--bar-shadow, none); /* Keeps the glow disabled until a glow option is selected. */
+    color: #000000; /* Keeps the controls readable. */
+    display: flex; /* Places the control groups in one bar. */
+    align-items: center; /* Centers controls vertically. */
+    justify-content: center; /* Centers controls horizontally. */
+    flex-wrap: wrap; /* Allows controls to fit on narrow screens. */
+    gap: 0.75rem; /* Separates the control groups. */
+    font-size: 0.8rem; /* Matches the middle bar text size. */
+    opacity: 1; /* Keeps the controls visible after loading. */
+    transition: opacity 0.5s ease; /* Reveals the controls smoothly when loading ends. */
+} /* Ends the bottom-bar rule. */
+
+.bottom-bar:not(.home-bottom-bar) { /* Selects the control bar on the inner pages. */
+    justify-content: space-between; /* Places the first control group left and the second right. */
+    padding-right: 50px; /* Keeps the glow controls 50px from the right edge. */
+    padding-left: 50px; /* Keeps the background controls 50px from the left edge. */
+} /* Ends the split control bar rule. */
+
+.home-bottom-bar { /* Selects the loading-only bottom bar on the home gallery. */
+    height: 1.66rem; /* Matches the middle bar's text, line-height, and vertical padding. */
+    min-height: 0; /* Overrides the control bar's minimum height. */
+    padding: 0.35rem; /* Matches the middle bar's inner spacing. */
+} /* Ends the home bottom-bar rule. */
+
+.home-bottom-bar .loading-fill { /* Selects the home bottom loading fill. */
+    position: absolute; /* Fills the fixed bottom bar. */
+    inset: 0; /* Covers the complete bottom bar. */
+    width: 0; /* Starts empty before loading begins. */
+    background: rgba(219, 219, 219, 0.85); /* Matches the middle loading bar color. */
+} /* Ends the home bottom loading-fill rule. */
+
+.bar-controls { /* Selects one group of bottom-bar controls. */
+    display: flex; /* Places a label and its buttons in one row. */
+    align-items: center; /* Centers the label and buttons vertically. */
+    gap: 0.35rem; /* Separates the label from its buttons. */
+} /* Ends the bar-controls rule. */
+
+.bar-controls-label { /* Selects a bottom-bar control label. */
+    margin-right: 0.15rem; /* Adds a small gap before the buttons. */
+} /* Ends the bar-controls-label rule. */
+
+.bar-control { /* Selects an individual color button. */
+    width: 1rem; /* Keeps each color choice compact. */
+    height: 1rem; /* Keeps each color choice square. */
+    padding: 0; /* Removes the browser's default button spacing. */
+    border: 0; /* Removes the browser button border around each color choice. */
+    border-radius: 50%; /* Makes each color choice a circular swatch. */
+    background: var(--swatch-color); /* Shows the color represented by the button. */
+    cursor: pointer; /* Indicates that the swatch can be activated. */
+    box-shadow: none; /* Removes the browser button shadow. */
+    appearance: none; /* Removes default platform-specific button styling. */
+} /* Ends the bar-control rule. */
+
+.bar-control[aria-pressed="true"] { /* Selects the active color button. */
+    border: 1px solid #000000; /* Gives the active swatch a black outline. */
+    outline: none; /* Keeps the active swatch free of an outer circle. */
+} /* Ends the active bar-control rule. */
+
+.subpage .middle-bar { /* Selects the bar on the inner pages. */
+    animation: navigation-bar-to-left 3s ease forwards;
+    background: rgba(219, 219, 219, 0.85);
+    color: #ffffff;
+} /* Ends the loaded subpage middle-bar rule. */
+
+.subpage .bottom-bar { /* Selects the bottom bar on the inner pages. */
+    animation: reveal-bottom-bar 3s ease forwards; /* Reveals the bottom bar after the middle-bar animation. */
+} /* Ends the subpage bottom-bar rule. */
+
+.subpage .page-content { /* Selects inner-page content during the bar movement. */
+    opacity: 0; /* Keeps page information hidden while the bar moves to the top. */
+    padding-top: 2rem; /* Keeps the content from being covered by the bar while it moves. */
+    visibility: hidden; /* Prevents hidden content from being perceived before the reveal. */
+    animation: reveal-subpage-content 0.5s ease 3s forwards; /* Reveals content after the bar reaches its final position. */
+} /* Ends the subpage content rule. */
+
+html.no-bar-animation .subpage .middle-bar { /* Selects inner pages reached from another inner page. */
+    animation: none;
+    top: 50%;
+    left: 1rem;
+    background: transparent;
+    color: #000000;
+    transform: translateY(-50%);
+} /* Ends the no-animation inner-page rule. */
+
+html.no-bar-animation .subpage .bottom-bar { /* Selects the bottom bar after direct inner-page navigation. */
+    animation: none; /* Prevents a second animation between inner pages. */
+} /* Ends the no-animation bottom-bar rule. */
+
+html.no-bar-animation .subpage .page-content { /* Selects content when the bar is already at the top. */
+    opacity: 1; /* Keeps content visible during inner-page navigation. */
+    visibility: visible; /* Makes the content immediately available. */
+    animation: none; /* Prevents the reveal animation from replaying. */
+} /* Ends the no-animation content rule. */
+
+@keyframes navigation-bar-to-left {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(219, 219, 219, 0.85);
+    }
+    100% {
+        top: 50%;
+        left: 1rem;
+        background: transparent;
+        color: #000000;
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes reveal-bottom-bar { /* Defines the inner-page bottom-bar reveal. */
+    from {
+        opacity: 0; /* Starts hidden with the middle bar. */
+    }
+    to {
+        opacity: 1; /* Finishes fully visible. */
+    }
+} /* Ends the bottom-bar reveal animation. */
+
+@keyframes reveal-subpage-content { /* Defines the inner-page content reveal. */
+    from {
+        opacity: 0; /* Starts with the content hidden. */
+        visibility: hidden; /* Keeps the content unavailable during movement. */
+    }
+    to {
+        opacity: 1; /* Finishes with the content visible. */
+        visibility: visible; /* Makes the content available after movement. */
+    }
+} /* Ends the content reveal animation. */
+
+.loading-fill { /* Selects the element that visually fills the loading bar. */
+    position: absolute; /* Positions the fill relative to the middle bar. */
+    inset: 0; /* Stretches the fill to all four edges of the middle bar. */
+    z-index: 0; /* Places the fill behind the title and navigation. */
+    width: 0; /* Starts the fill at zero width before JavaScript begins. */
+    background: rgba(219, 219, 219, 0.5); /* Gives the loading fill a 50% transparent gray color. */
+    backdrop-filter: blur(20px); /* Blurs content visible behind the bar. */
+} /* Ends the loading-fill rule. */
+
+.middle-bar > :not(.loading-fill) { /* Selects the title and navigation, but not the loading fill. */
+    position: relative; /* Allows these elements to use a stacking order. */
+    z-index: 1; /* Places the title and navigation above the loading fill. */
+    opacity: 1; /* Makes the title and navigation visible after loading. */
+    transition: opacity 0.5s ease; /* Fades the title and navigation smoothly. */
+    pointer-events: auto; /* Keeps the links clickable after they appear. */
+} /* Ends the middle-bar child rule. */
+
+.is-loading .middle-bar > :not(.loading-fill) { /* Selects the title and navigation while loading. */
+    opacity: 0; /* Hides the title and navigation until loading finishes. */
+} /* Ends the loading content rule. */
+
+.is-loading .middle-bar { /* Selects the middle bar while the page is loading. */
+    pointer-events: none; /* Prevents links from being clicked during loading. */
+    background: transparent; /* Lets the animated fill define the bar while loading. */
+} /* Ends the loading middle-bar rule. */
+
+.is-loading .bottom-bar:not(.home-bottom-bar) { /* Selects appearance controls while the page is loading. */
+    opacity: 0; /* Hides controls until the middle bar finishes loading. */
+    pointer-events: none; /* Prevents hidden controls from being activated. */
+} /* Ends the loading bottom-bar rule. */
+
+.is-loading .image-grid { /* Selects the homepage images while the bar is loading. */
+    visibility: hidden; /* Keeps the images from appearing before loading finishes. */
+} /* Ends the loading image-grid rule. */
+
+.is-loading .loading-fill { /* Selects the fill while the page is loading. */
+    width: 100%; /* Provides the fill element with the full available bar width. */
+    background: rgba(219, 219, 219, 0.85); /* Keeps the loading progress grey. */
+} /* Ends the loading-fill state rule. */
+
+.middle-bar .site-title { /* Selects the Megumi Ito title link. */
+    color: #000000; /* Sets the title text color to black. */
+    white-space: nowrap; /* Keeps the site title on one line. */
+    flex-shrink: 0; /* Prevents the title from narrowing and wrapping. */
+} /* Ends the site-title rule. */
+
+.middle-bar .site-title {
+    cursor: default;
+} /* Keeps the non-clickable site title neutral on hover. */
+
+.subpage .site-nav a.active { /* Selects the active inner-page navigation link. */
+    color: #b3b3b3; /* Makes the active link light grey. */
+} /* Ends the active inner-page link rule. */
+
+.middle-bar a { /* Selects all links inside the middle bar. */
+    color: inherit; /* Makes links use the color inherited from the middle bar. */
+    text-decoration: none; /* Removes the default link underline. */
+} /* Ends the middle-bar link rule. */
+
+.site-nav a { /* Selects navigation links on every page. */
+    color: #000000; /* Keeps non-active navigation links black. */
+} /* Ends the navigation link color rule. */
+
+.site-nav { /* Selects the navigation container. */
+    display: contents; /* Lets links share the vertical bar with the site title. */
+}
+
+.site-nav a {
+    display: block;
+    gap: 1rem; /* Adds space between navigation links. */
+} /* Ends the site-nav rule. */
+
+.site-nav a:nth-child(1) { order: 1; }
+.site-nav a:nth-child(2) { order: 2; }
+.middle-bar .site-title { order: 3; }
+.site-nav a:nth-child(3) { order: 4; }
+.site-nav a:nth-child(4) { order: 5; }
+
+.site-nav a:hover, /* Selects navigation links when the pointer is over them. */
+.site-nav a:focus-visible { /* Selects navigation links focused by keyboard navigation. */
+    color: #b3b3b3; /* Gives interactive links the active light-grey color. */
+} /* Ends the navigation interaction rule. */
+
+.site-nav a.active { /* Selects the link for the current page. */
+    color: #b3b3b3; /* Gives the current page link a distinct light grey color. */
+} /* Ends the active-link rule. */
+
+.page-content { /* Selects the content area on standalone pages. */
+    min-height: 100vh; /* Makes the page fill the viewport. */
+    padding: 5rem 1.5rem; /* Adds space around the page content. */
+} /* Ends the page-content rule. */
+
+.about-content { /* Selects the About page content. */
+    max-width: 800px; /* Keeps the three sections readable on wide screens. */
+    margin: 0 auto; /* Centers the About page content. */
+    font-size: 0.8rem; /* Keeps the About page text compact. */
+} /* Ends the About content rule. */
+
+.about-sections { /* Selects the stacked About sections. */
+    display: grid; /* Stacks the three section rows vertically. */
+    gap: 3rem; /* Separates each row from the next. */
+    margin-top: 1rem; /* Separates the sections from the introduction. */
+} /* Ends the About sections rule. */
+
+.about-row { /* Selects one two-column About section. */
+    display: grid; /* Places the two columns side by side. */
+    grid-template-columns: 6rem minmax(0, 1fr); /* Gives every row the same narrow first-column width. */
+    gap: 0.75rem; /* Keeps the shared column gap compact. */
+} /* Ends the About row rule. */
+
+.about-label { /* Selects the label in each About row. */
+    font-size: inherit; /* Keeps section headings the same size as the surrounding text. */
+    font-weight: 400; /* Prevents headings from appearing larger or heavier than the body text. */
+    margin: 0; /* Removes the heading's default spacing. */
+} /* Ends the About label rule. */
+
+.about-text { /* Selects the text in the right About column. */
+    min-width: 0; /* Allows long text to fit within the available column width. */
+} /* Ends the About text rule. */
+
+.about-text p { /* Selects paragraphs in the right About column. */
+    margin-top: 0; /* Aligns the text with the label at the top of the row. */
+} /* Ends the About text paragraph rule. */
+
+.projects-content { /* Selects the Projects page content. */
+    max-width: none; /* Lets the project grid reach the viewport edges. */
+    width: 100%; /* Uses the full available page width. */
+    margin: 0 auto; /* Centers the project grid. */
+    padding: 0; /* Keeps the project page flush with the viewport edges. */
+    font-size: 1.5rem; /* Makes project titles prominent. */
+} /* Ends the Projects content rule. */
+
+.subpage .projects-content {
+    padding-top: 0;
+}
+
+.project-filters {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 1rem;
+    font-size: 0.8rem;
+}
+
+.project-filter-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-filter {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.project-filter:hover,
+.project-filter:focus-visible,
+.project-filter.is-active {
+    text-decoration: underline;
+}
+
+.projects-intro {
+    display: block;
+    margin: 0 1rem 2rem;
+}
+
+.projects-intro h1 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.projects-intro-text p {
+    max-width: 20rem;
+    margin: 0.5rem 0 0;
+    font-size: 0.75rem;
+}
+
+.projects-intro-text p + p {
+    margin-top: 1rem;
+    text-indent: 2rem;
+}
+
+.projects-grid { /* Selects the project card grid. */
+    display: grid; /* Arranges project cards in a responsive grid. */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Keeps exactly two projects beside each other. */
+    align-items: start; /* Aligns each project to the top of its grid row. */
+    gap: 0; /* Places project cards directly beside and below each other. */
+} /* Ends the Projects grid rule. */
+
+.project-list {
+    margin: 3rem 1rem;
+}
+
+.project-list-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.8rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.project-list-toggle:hover {
+    text-decoration: underline;
+}
+
+.project-list-items {
+    display: grid;
+    align-items: start;
+    font-size: 0.8rem; /* Matches the site's compact navigation text. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 1rem;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.project-list-items[hidden] {
+    display: none;
+}
+
+.project-list-item {
+    display: block;
+    align-self: start;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+}
+
+.project-list-item:hover,
+.project-list-item:focus-visible {
+    text-decoration: underline;
+}
+
+.project-card { /* Selects a project card. */
+    position: relative; /* Anchors the hover caption over the image. */
+    padding: 0; /* Lets the project image use the full card width. */
+    border: 0; /* Removes the browser button border. */
+    background: transparent; /* Keeps the card visually minimal. */
+    color: inherit; /* Uses the page text color. */
+    text-align: left; /* Aligns the project caption with the image. */
+    cursor: pointer; /* Indicates that the card opens project details. */
+} /* Ends the project-card rule. */
+
+.project-card-image { /* Selects the image area of a project card. */
+    display: block; /* Makes the image area fill the card width. */
+    aspect-ratio: 6 / 5; /* Gives every project thumbnail the requested portrait proportions. */
+    overflow: hidden; /* Keeps image hover effects inside the card. */
+} /* Ends the project-card-image rule. */
+
+.project-card img { /* Selects the project card image. */
+    display: block; /* Removes inline image spacing. */
+    width: 100%; /* Fills the card width. */
+    height: 100%; /* Fills the fixed-size image area. */
+    object-fit: cover; /* Keeps every thumbnail aligned while cropping excess image area. */
+} /* Ends the project-card image rule. */
+
+.project-card-caption { /* Selects the project name row. */
+    display: flex; /* Places the sign and name beside one another. */
+    align-items: center; /* Aligns the sign and name vertically. */
+    justify-content: center; /* Centers the project title over the image. */
+    position: absolute; /* Places the caption over the project image. */
+    inset: 0; /* Lets the caption cover the complete image area. */
+    gap: 0.4rem; /* Adds a small gap after the sign. */
+    padding: 1rem; /* Gives the hover caption comfortable inset spacing. */
+    background: rgba(0, 0, 0, 0.45); /* Keeps the caption readable over the image. */
+    color: #ffffff; /* Contrasts the caption against the image. */
+    text-align: center; /* Centers the project title text. */
+    opacity: 0; /* Hides names until the card is hovered or focused. */
+    transition: opacity 0.2s ease; /* Reveals names smoothly. */
+} /* Ends the project-card-caption rule. */
+
+.project-card:hover .project-card-caption,
+.project-card:focus-visible .project-card-caption {
+    opacity: 1;
+}
+
+.project-card img.project-card-sign { /* Selects the compact project sign instead of the card image. */
+    display: none; /* Removes the decorative sign before the project title. */
+    flex: 0 0 1.3em; /* Keeps the sign proportional beside the caption text. */
+    width: 1.3em; /* Scales the sign with the caption font size. */
+    height: 1.3em; /* Keeps the sign square and proportional. */
+    border-radius: 0; /* Prevents the shared image styling from rounding the sign. */
+    object-fit: contain; /* Keeps the complete custom sign visible. */
+} /* Ends the project-card-sign rule. */
+
+.project-modal { /* Selects the project detail window. */
+    width: 100vw; /* Makes the window fill the viewport horizontally. */
+    max-width: none; /* Allows the full viewport width. */
+    height: 100vh; /* Makes the window fill the viewport vertically. */
+    max-height: none; /* Allows the full viewport height. */
+    margin: 0; /* Removes the browser's default dialog margin. */
+    padding: 0; /* Lets the modal content control its spacing. */
+    border: 0; /* Removes the default dialog border. */
+    background: rgba(255, 255, 255, 0.96); /* Keeps the detail window readable. */
+    color: #000000; /* Makes modal text readable. */
+} /* Ends the project-modal rule. */
+
+.project-modal::backdrop { /* Selects the area behind the project window. */
+    background: rgba(0, 0, 0, 0.6); /* Separates the project window from the page. */
+} /* Ends the project-modal backdrop rule. */
+
+.project-modal-content { /* Selects the content inside the project window. */
+    position: relative; /* Anchors the close button. */
+    min-height: 100%; /* Fills the full-screen project window. */
+    padding: 1rem 2rem; /* Keeps the window content clear of the viewport edges. */
+} /* Ends the project-modal-content rule. */
+
+.project-modal-layout {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 28% 72%;
+    grid-template-areas: "info gallery";
+    align-items: stretch;
+    transform: translateY(-50%);
+}
+
+.project-modal-info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+    min-width: 0;
+    padding: 0 3.25vw;
+}
+
+.project-modal-gallery {
+    grid-area: gallery;
+    min-width: 0;
+}
+
+.project-modal-title {
+    width: min(57vw, 100%);
+    margin: 1rem auto 0;
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.1;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.project-modal-close { /* Selects the project window close button. */
+    position: absolute; /* Places the close control in the top corner. */
+    top: 1rem; /* Offsets the close control from the top. */
+    right: 1rem; /* Places the close control in the top-right corner. */
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0;
+    z-index: 2; /* Keeps the close control above the viewer. */
+    border: 0; /* Removes the browser button border. */
+    background: transparent; /* Keeps the close control minimal. */
+    color: inherit; /* Uses the modal text color. */
+    font-size: 0.8rem; /* Matches the site's compact navigation text. */
+    cursor: pointer; /* Indicates that the window can be closed. */
+} /* Ends the project-modal-close rule. */
+
+.project-modal-close::after {
+    content: "×";
+    font-size: 1.15rem;
+    line-height: 1;
+    position: relative;
+    top: 0.08em;
+}
+
+.project-modal-close span {
+    position: static;
+}
+
+.project-modal-close:hover,
+.project-modal-close:focus-visible {
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+.project-modal-description { /* Selects the project description. */
+    width: 100%;
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1.08;
+}
+
+.project-modal-description p {
+    margin: 0;
+}
+
+@media (max-width: 1142px) {
+    .project-modal-layout {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        transform: none;
+    }
+
+    .project-modal-gallery {
+        order: 1;
+    }
+
+    .project-modal-info {
+        order: 2;
+        display: block;
+        padding: 0;
+    }
+
+    .project-modal-description {
+        position: static;
+        width: min(78vw, 42rem);
+        margin: 0 auto 1rem;
+        font-size: 0.8rem;
+        text-align: left;
+    }
+
+    .project-modal-details {
+        width: min(78vw, 42rem);
+        margin: 1rem auto 0;
+    }
+}
+
+.project-viewer { /* Selects the project image viewer. */
+    position: relative; /* Anchors the side navigation areas. */
+    display: flex; /* Centers the current project image. */
+    align-items: flex-start; /* Keeps every carousel image aligned to the viewer's top edge. */
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    overflow: visible;
+    min-height: 0; /* Allows the viewer to fit inside the modal. */
+} /* Ends the project-viewer rule. */
+
+.project-viewer-track {
+    display: block;
+    width: min(57vw, 100%);
+    height: min(69vh, 42rem);
+}
+
+.project-viewer-image { /* Selects the current project image. */
+    width: 100%;
+    height: min(69vh, 42rem);
+    border-radius: 0;
+    object-fit: contain;
+    cursor: pointer;
+} /* Ends the project-viewer-image rule. */
+
+
+
+.project-modal-details {
+    width: 100%;
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+.project-viewer-side { /* Selects each clickable half of the viewer. */
+    position: absolute; /* Places each control over one side of the image. */
+    top: 0; /* Covers the full viewer height. */
+    bottom: 0; /* Covers the full viewer height. */
+    width: 50%; /* Makes each side clickable. */
+    z-index: 1; /* Keeps controls above the image. */
+    border: 0; /* Removes the browser button border. */
+    background: transparent; /* Keeps the navigation areas invisible. */
+    cursor: pointer; /* Indicates that each side changes the image. */
+} /* Ends the project-viewer-side rule. */
+
+.project-viewer-previous { /* Selects the left navigation area. */
+    left: 0; /* Makes the left half go backward. */
+} /* Ends the previous viewer rule. */
+
+.project-viewer-next { /* Selects the right navigation area. */
+    right: 0; /* Makes the right half go forward. */
+} /* Ends the next viewer rule. */
+
+.content { /* Selects the main page content. */
+    width: 100%; /* Allows the image grid to use the full page width. */
+    margin: 0px; /* Removes default outer spacing around the content. */
+    padding: 0px; /* Adds a small gap around the image grid. */
+} /* Ends the content rule. */
+
+.gallery-content {
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.subpage .gallery-content {
+    padding-top: 0;
+}
+
+.image-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.image-grid img {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-grid.is-paused {
+    cursor: default;
+}
+
+.image-grid img.is-current {
+    display: block;
+}
+
+.gallery-project-info {
+    position: fixed;
+    left: 50%;
+    bottom: 50px;
+    z-index: 19;
+    width: 250px;
+    padding: 0.35rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    background: rgba(219, 219, 219, 0.85);
+    color: #fdfdfd;
+    font-size: 0.8rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, calc(100% + 50px));
+    transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.gallery-project-info.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition-delay: 0s;
+}
+
+.gallery-project-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.gallery-project-title {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 400;
+}
+
+.gallery-project-toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.gallery-project-description {
+    max-height: 0;
+    overflow: hidden;
+    max-width: 42rem;
+    padding-top: 0.35rem;
+    font-size: inherit;
+    transition: max-height 0.35s ease;
+}
+
+.gallery-project-info.is-expanded .gallery-project-description {
+    max-height: 8rem;
+}
+
+.gallery-project-description p {
+    margin: 0;
+}
+
+@media (max-width: 700px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 714px) { /* Moves the information below the title when its column would be under 200px wide. */
+    .image-grid { /* Selects the gallery on smaller screens. */
+        column-count: 2; /* Changes to two vertical masonry columns on small screens. */
+    } /* Ends the small-screen grid rule. */
+
+    .project-modal-layout {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        transform: none;
+    }
+
+    .project-modal-close {
+        right: 50%;
+        padding: 10px;
+        transform: translateX(50%);
+    }
+
+    .project-modal-gallery {
+        order: 1;
+    }
+
+    .project-modal-info {
+        order: 2;
+        display: block;
+        padding: 0;
+    }
+
+    .project-modal-description {
+        position: static;
+        width: min(78vw, 42rem);
+        margin: 0 auto 1rem;
+        padding-right: 0;
+        font-size: 0.8rem;
+        text-align: left;
+    }
+
+    .project-modal-title {
+        width: 78vw;
+        margin: 1rem auto 0;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .project-viewer {
+        width: 100%;
+        margin: 0;
+    }
+
+    .project-viewer-track {
+        width: 78vw;
+        height: 55vh;
+    }
+
+    .project-modal-details {
+        position: static;
+        width: min(78vw, 42rem);
+        margin: 1rem auto 0;
+        text-align: center;
+    }
+
+    .project-viewer-image {
+        width: 78vw;
+        height: 55vh;
+    }
+
+    .gallery-project-info {
+        width: min(250px, calc(100vw - 100px));
+    }
+} /* Ends the small-screen media query. */
+
+.subpage .middle-bar,
+.subpage .bottom-bar {
+    animation: none !important;
+}
+
+.middle-bar,
+.projects-page .middle-bar,
+.gallery-page .middle-bar {
+    top: 50%;
+    left: 1rem;
+    width: max-content;
+    height: auto;
+    min-height: 0;
+    padding: 0.35rem;
+    transform: translateY(-50%);
+}
+
+.projects-page .middle-bar,
+.gallery-page .middle-bar {
+    background: transparent;
+}
+
+.subpage:not(.projects-page):not(.gallery-page) .middle-bar {
+    background: transparent !important;
+}
+
+.subpage .page-content {
+    opacity: 1;
+    visibility: visible;
+    animation: none !important;
+}
+
+/* ===== About page layout (matches the About mockup) ===== */
+
+/* Centred block: a narrow label column and a reading column, same size as the menu. */
+body.about-page .about-content {
+    width: 30em;
+    max-width: none;
+    margin: 0 auto;
+    padding: 1.2em 0 4em;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+body.about-page .about-sections {
+    gap: 1.2em; /* One empty line between sections. */
+    margin-top: 0;
+}
+
+body.about-page .about-row {
+    grid-template-columns: 6em minmax(0, 1fr);
+    gap: 0;
+}
+
+
+/* Paragraphs run on without gaps; every paragraph after the first is indented. */
+body.about-page .about-text p {
+    margin: 0;
+    text-align: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+/* An empty line between paragraphs (no indent). */
+body.about-page .about-text p + p {
+    margin-top: 1.2em;
+}
+
+/* Narrow screens: keep the text clear of the fixed menu on the left. */
+@media (max-width: 760px) {
+    /* The labels stay in their own column beside the text at every width. */
+    /* The menu is now just a narrow strip of letters (H P G A), so the text only needs to clear that. */
+    body.about-page .about-content {
+        width: auto;
+        margin: 0 1rem 0 3rem;
+    }
+
+    body.about-page .about-row {
+        grid-template-columns: 5em minmax(0, 1fr);
+    }
+}
+
+/* ===== Site menu (same on every page) =====
+   `body[class]` gives these rules enough weight to beat the older page-specific menu rules above.
+   script/nav.js sets each box's width while it types the word out (H -> Home), so the widths
+   here are only a fallback for when JavaScript is off. */
+
+/* The boxes touch each other (one continuous strip); taller boxes keep the same spacing between words. */
+body[class] > .middle-bar .site-nav {
+    gap: 0 !important;
+}
+
+/* Every item gets a box: white for the other pages, grey for the current page.
+   The box is drawn by ::before *behind* the word, so the sliding grey box
+   can pass between the white boxes and the words. */
+body[class] > .middle-bar .site-nav a,
+body[class] > .middle-bar .site-nav a:hover,
+body[class] > .middle-bar .site-nav a:focus-visible {
+    /* The menu sits 1rem from the left edge: pull the box back by that much so it touches the edge. */
+    position: relative;
+    order: 0; /* Keep page order; the old nth-child order rules would reshuffle when the slide box is added. */
+    width: calc(1rem + 5em);
+    margin-left: -1rem;
+    padding: 0.6em 0 0.6em 0.55em;
+    overflow: hidden;
+    background: transparent !important;
+    font-size: 0.9rem !important;
+    white-space: nowrap;
+    text-decoration: none !important;
+    transition: width 55ms linear; /* Smooths each letter step while typing. */
+}
+
+body[class] > .middle-bar .site-nav a::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: #ffffff;
+    content: "";
+}
+
+body[class] > .middle-bar .site-nav a.active::before,
+body[class] > .middle-bar .site-nav a[aria-current="page"]::before {
+    background: #c4c4c4;
+}
+
+/* While the grey box slides, every item shows its white box underneath it. */
+body[class] > .middle-bar .site-nav.nav-sliding a::before {
+    background: #ffffff;
+}
+
+/* The sliding grey box: sits above the white boxes but below the words. */
+.site-nav .nav-highlight {
+    position: absolute;
+    background: #c4c4c4;
+    pointer-events: none;
+}
+
+/* ===== Projects page bottom row (matches the Projects mockups) =====
+   Left half, under the left image column: "Projects +" with its list.
+   Right half, under the right image column: "Filter:" and the four filters spread to the edge.
+   Everything wraps instead of overflowing, so nothing overlaps at any window width. */
+.projects-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    padding: 0.7rem 0 8rem;
+    font-size: 0.6rem;
+    line-height: 1.2;
+}
+
+.projects-bottom .project-list {
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+    margin: 0;
+    padding: 0 1rem;
+}
+
+.projects-bottom .project-list-toggle {
+    flex: 0 0 auto;
+    min-width: 6.3vw; /* The list starts at the same spot whether it's open or closed. */
+    padding-right: 1em; /* Never touches the list, even when the window is narrow. */
+    gap: 0.25em;
+    font-size: inherit;
+    white-space: nowrap;
+}
+
+/* Up to two columns, filled top to bottom (first four left, next four right).
+   On wide screens it matches the mockup (37vw); when the half gets narrow the titles wrap,
+   and below ~2 x 13em it drops to one column. */
+.projects-bottom .project-list-items {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 37vw;
+    margin: 0;
+    padding: 0 1em 0 0;
+    columns: 2 13em;
+    column-gap: 1.5em;
+    font-size: inherit;
+}
+
+.projects-bottom .project-list-items[hidden] {
+    display: none;
+}
+
+.projects-bottom .project-list-item {
+    margin-bottom: 1.13em;
+    break-inside: avoid;
+}
+
+.projects-bottom .project-list-item[hidden] {
+    display: none;
+}
+
+/* Filter row: label and the four filters spread evenly up to the right edge. */
+.projects-bottom .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5em 1.5em;
+    min-width: 0;
+    margin: 0;
+    padding: 0 1.5rem 0 1rem;
+    font-size: inherit;
+}
+
+.projects-bottom .project-filter-buttons {
+    display: contents;
+}
+
+.projects-bottom .project-filter.is-active {
+    text-decoration: none;
+}
+
+.projects-bottom .project-filter:hover,
+.projects-bottom .project-filter:focus-visible {
+    text-decoration: underline;
+}
+
+/* Phones: the images are one column, so the two halves stack too, with the filters on top. */
+@media (max-width: 700px) {
+    .projects-bottom {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+        padding-bottom: 1.5rem; /* Less empty space under the list on phones. */
+        font-size: 0.75rem;
+    }
+
+    .projects-bottom .project-filters {
+        order: -1;
+    }
+
+    .projects-bottom .project-list-toggle {
+        min-width: 0;
+        padding-right: 1.5rem;
+    }
+
+    .projects-bottom .project-list-items {
+        max-width: none;
+        padding-right: 0;
+        columns: 1;
+    }
+
+    .projects-bottom .project-list-item {
+        margin-bottom: 0.6em;
+    }
+}
+
+/* ===== Project window (matches the project mockup) =====
+   Title centred on top, description on the left, the image carousel in the middle with the
+   next image smaller, faded and blurred behind it on the right, details centred below.
+   The close button keeps its own styles (.project-modal-close above). */
+.project-modal-content.pm {
+    position: relative;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.pm-title {
+    position: absolute;
+    top: 1rem; /* Same top as the close button. */
+    left: 50%;
+    width: max(20vw, 15rem); /* Narrow, so longer titles wrap onto two lines like the mockup. */
+    margin: 0;
+    transform: translateX(-50%);
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.pm-title em {
+    font-style: italic;
+}
+
+.pm-description {
+    position: absolute;
+    top: var(--pm-center, 50%); /* Same middle line as the image (set by project-viewer.js). */
+    left: 3.25vw;
+    width: 14.5vw;
+    transform: translateY(-50%);
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+.pm-description p {
+    margin: 0;
+}
+
+.pm-details {
+    position: absolute;
+    bottom: 8vh;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+/* The stage is the size and place of the main image; the other slides are positioned from it. */
+.pm-stage {
+    --pm-next-x: 23.8vw; /* How far right the image behind sits. */
+    --pm-next-scale: 0.735; /* How much smaller the image behind is. */
+    position: absolute;
+    /* Centred between the bottom of the title and the top of the details line
+       (project-viewer.js measures both and sets --pm-center). */
+    top: var(--pm-center, 50%);
+    left: 50%;
+    width: 57vw;
+    height: 69vh;
+    transform: translate(-50%, -50%);
+}
+
+.pm-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition:
+        transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.9s ease,
+        filter 0.9s ease;
+}
+
+/* Front image. */
+.pm-slide.is-main {
+    z-index: 2;
+    transform: none;
+    opacity: 1;
+    filter: none;
+}
+
+/* Image behind, on the right: smaller, faded and blurred. */
+.pm-slide.is-next {
+    z-index: 1;
+    transform: translateX(var(--pm-next-x)) scale(var(--pm-next-scale));
+    opacity: 0.45;
+    filter: blur(2px);
+}
+
+/* Waiting further back, invisible, ready to become the image behind. */
+.pm-slide.is-waiting {
+    z-index: 0;
+    transform: translateX(calc(var(--pm-next-x) + 8vw)) scale(0.6);
+    opacity: 0;
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+/* The old front image disappears at once (no fade, no slide) as the next one moves in. */
+.pm-slide.is-leaving {
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: none;
+}
+
+/* Moving a slide back to the waiting spot happens instantly (no animation). */
+.pm-slide.no-transition {
+    transition: none;
+}
+
+/* Narrow windows: everything under each other — title, image, description, details. */
+@media (max-width: 900px) {
+    .project-modal-content.pm {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        height: auto;
+        min-height: 100%;
+        padding: 3.5rem 1.25rem 2rem;
+        overflow: visible;
+    }
+
+    .pm-title,
+    .pm-description,
+    .pm-details,
+    .pm-stage {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        transform: none;
+    }
+
+    .pm-title {
+        width: 100%;
+        font-size: 1.15rem;
+    }
+
+    .pm-stage {
+        order: 1;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+    }
+
+    .pm-title { order: 0; }
+    .pm-description { order: 2; width: 100%; max-width: 32rem; }
+    .pm-details { order: 3; white-space: normal; }
+
+    /* No room beside the image: the image behind stays hidden, the slide still runs. */
+    .pm-slide.is-next {
+        opacity: 0;
+        transform: translateX(30%);
+    }
+}
