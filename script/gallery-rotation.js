@@ -19,10 +19,12 @@ const projects = [
 const projectDescriptionCopy = "A project exploring the relationship between sculptural light, material, and the atmosphere of a space.";
 let currentImageIndex = 0;
 let rotationTimer;
-const rotationInterval = 1000;
+const rotationInterval = 800; // Time per image (ms). Lower = faster.
 
 function updateProjectInfo() {
-    projectTitle.textContent = projects[currentImageIndex % projects.length];
+    // Each image carries its own project name (data-title in gallery.html), so the order can change freely.
+    const image = galleryImages[currentImageIndex];
+    projectTitle.textContent = image.dataset.title || projects[currentImageIndex % projects.length];
     projectDescriptionText.textContent = projectDescriptionCopy;
 }
 
@@ -63,7 +65,9 @@ if (galleryImages.length > 0) {
         imageGrid.setAttribute("aria-label", "Image gallery, playing");
     });
     rotationTimer = window.setInterval(showNextGalleryImage, rotationInterval);
-    projectToggle.addEventListener("click", () => {
+    // Clicking anywhere on the text box (the + included) opens or closes the description.
+    // The + button stays for keyboard users; its click bubbles up to this one handler.
+    projectInfo.addEventListener("click", () => {
         setProjectDescriptionOpen(projectToggle.getAttribute("aria-expanded") !== "true");
     });
 }

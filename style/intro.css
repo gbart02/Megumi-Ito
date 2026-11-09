@@ -149,18 +149,28 @@ body.main-page > .home-contact:not(.middle-bar):not(.bottom-bar) {
 .contact-open .home-contact a:nth-child(2) { transition-delay: 0.3s; }
 .contact-open .home-contact a:nth-child(3) { transition-delay: 0.4s; }
 
-/* The menu fades out while the contact details are open. */
-.intro-nav,
-body.main-page > .middle-bar .site-nav {
+/* The big intro words fade out while the contact details are open.
+   The small menu on the left stays visible and usable. */
+.intro-nav {
     transition: opacity 0.4s ease;
 }
 
-.contact-open .intro-nav,
-body.main-page.contact-open > .middle-bar .site-nav {
+.contact-open .intro-nav {
     opacity: 0;
     pointer-events: none !important;
 }
 
 .contact-open .intro-nav .intro-word {
     pointer-events: none;
+}
+
+/* White veil over the home photo (the 0.3 base value is in beauty.css, .main-page::after).
+   During the intro (loading bar and big words) the photo stays more veiled; when the small
+   menu appears on the left (intro finished), the veil fades to its lighter 0.3. */
+body.main-page::after {
+    transition: background-color 0.8s ease;
+}
+
+html:not(.intro-seen) body.main-page.intro-running::after {
+    background-color: rgba(255, 255, 255, 0.68);
 }

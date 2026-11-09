@@ -226,7 +226,7 @@ body.main-page > a.main-contact {
     position: fixed;
     inset: 0;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.3); /* White veil over the home photo: lower = clearer photo. */
     content: "";
     pointer-events: none;
 }
@@ -1300,7 +1300,7 @@ body[class] > .middle-bar .site-nav.nav-sliding a::before {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: start;
     padding: 0.7rem 0 8rem;
-    font-size: 0.6rem;
+    font-size: var(--project-name-size); /* Same size as the project names on the photos. */
     line-height: 1.2;
 }
 
@@ -1381,7 +1381,6 @@ body[class] > .middle-bar .site-nav.nav-sliding a::before {
         grid-template-columns: minmax(0, 1fr);
         gap: 1.5rem;
         padding-bottom: 1.5rem; /* Less empty space under the list on phones. */
-        font-size: 0.75rem;
     }
 
     .projects-bottom .project-filters {
@@ -1531,7 +1530,8 @@ body[class] > .middle-bar .site-nav.nav-sliding a::before {
         gap: 1.5rem;
         height: auto;
         min-height: 100%;
-        padding: 3.5rem 1.25rem 2rem;
+        /* Top padding leaves the same space (1.5rem) under the close button as between title and image. */
+        padding: 4.9rem 1.25rem 2rem;
         overflow: visible;
     }
 
@@ -1568,4 +1568,67 @@ body[class] > .middle-bar .site-nav.nav-sliding a::before {
         opacity: 0;
         transform: translateX(30%);
     }
+}
+
+/* ===== Projects page on touchscreens =====
+   There is no hover on a touchscreen, so the project names are always shown on the photos,
+   each in a see-through grey box (instead of darkening the whole photo). */
+@media (hover: none) {
+    .project-card .project-card-caption {
+        opacity: 1;
+        background: transparent;
+    }
+
+    .project-card .project-card-caption span {
+        padding: 0.3em 0.6em;
+        background: rgba(230, 230, 230, 0.7);
+        color: #000000;
+        line-height: 1.25;
+    }
+}
+
+/* One text size for the project names on the photos and the bottom row (filters, Projects +). */
+:root {
+    --project-name-size: 0.8333rem;
+}
+
+.project-card-caption {
+    font-size: var(--project-name-size);
+}
+
+/* Gallery pop-up: same look as the project names on the Projects page
+   (light see-through grey, black text, same text size), with even space all around the text. */
+.gallery-project-info {
+    padding: 0.7em 0.8em;
+    background: rgba(230, 230, 230, 0.7);
+    color: #000000;
+    font-size: var(--project-name-size);
+    line-height: 1.25;
+}
+
+/* Title and + share the first line; the + lines up with the title's first line. */
+.gallery-project-info .gallery-project-heading {
+    align-items: flex-start;
+    gap: 0.8em;
+}
+
+.gallery-project-info .gallery-project-toggle {
+    flex: 0 0 auto;
+    font-size: 1.1em;
+    line-height: 1.15;
+}
+
+/* Closed: the description takes no space, so the space under the title equals the space above it. */
+.gallery-project-info .gallery-project-description {
+    padding-top: 0;
+    transition: max-height 0.35s ease, padding-top 0.35s ease;
+}
+
+.gallery-project-info.is-expanded .gallery-project-description {
+    padding-top: 0.6em;
+}
+
+/* The whole Gallery text box can be clicked to open or close the description. */
+.gallery-project-info {
+    cursor: pointer;
 }
